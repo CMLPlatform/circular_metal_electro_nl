@@ -1,0 +1,17 @@
+1	13	Lampen	Lighting products
+2	1	Basismetaal	Base metal
+3	15	Airconditioners	Air conditioners
+4	6	Mobiele telefoons en smartphones	Mobile telephones
+5	4	Elektronische componenten	Electrical components
+6	3	Metaalproducten	Metal products
+7	16	Magnetrons	Microwaves
+8	7	Televisies 	Televisions 
+9	12	Elektrische onderdelen	Electronic parts
+10	9	Overige consumentenelectronica	Other consumer electronics
+11	5	Huishoudelijke computers	Household computers
+12	8	Video en DVD	Video and DVD
+13	17	Koelkasten en vriezers	Refrigerators/freezers
+14	14	"Wasmachines, wasdrogers, vaatwassers"	Washing machines 
+15	18	Overig witgoed	Other domestic appliances
+16	11	Elektrisch vermogen	Electrical capacity
+17	10	Waarnemingsapparatuur	Measuring equipment

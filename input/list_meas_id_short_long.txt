@@ -1,0 +1,21 @@
+ID	Measure short	Measure long
+1	Washing machine rental	Lease and rental contracts for washing machines 
+2	Attitude posession	Different attitude towards possession 
+3	Subsidy	Environment investment allowance (MIA), Random depreciation of environmental investments (VAMIL), for longer lifespan 
+4	Incineration plants	Changing position of incineration plants 
+5	Loan systems	Loan systems such as Neemby, Flow2 
+6	LED value	Increased recycling due to value of LED 
+7	Plastics design	Develop plastics that were designed for recycling 
+8	PC assembly	Assembly for disassembly of PCs 
+9	WEEE directive	Reassess WEEE directive 
+10	Stranded assets	Divestment of ‘stranded assets’ strategies 
+11	Main ports	Use logistical knowledge about mainports 
+12	Raw materials passport	Introduce raw materials passport 
+13	Collective insurance	Collective insurance for guarantee of repaired goods/products with used parts 
+14	Stockpiling	Lift ban on stockpiling 
+15	Rising prices raw materials	Rising prices of raw materials 
+16	B2B	Incorporate conditions for supply of parts in B2B contracts 
+17	Collection	Use reserve from collection contributions 
+18	Lower VAT	Lower VAT on circular services 
+19	PSS development	PSS development most expensive product groups in metal and electrical sectors 
+-1	Other	Other

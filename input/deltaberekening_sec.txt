@@ -1,0 +1,5 @@
+1	Nieuwwaarde	Primary
+2	Reparatie	Repair
+3	Hergebruik	Reuse
+4	Hergebruik componenten	Refurbish
+5	Recycling	Recycle

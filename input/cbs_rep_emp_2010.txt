@@ -1,0 +1,3 @@
+"Geslacht"	"Type werkenden"	"Bedrijfstakken/branches (SBI 2008)"	"Perioden"	"Banen (x 1 000)"
+"Totaal mannen en vrouwen"	"Totaal"	"33 Reparatie en installatie van machines"	"2010"	40
+"Totaal mannen en vrouwen"	"Totaal"	"95 Reparatie van consumentenartikelen"	"2010"	15

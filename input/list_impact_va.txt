@@ -1,0 +1,6 @@
+Other net taxes on production	M.EUR
+Compensation of employees; wages, salaries, & employers' social contributions: Low-skilled	M.EUR
+Compensation of employees; wages, salaries, & employers' social contributions: Medium-skilled	M.EUR
+Compensation of employees; wages, salaries, & employers' social contributions: High-skilled	M.EUR
+Operating surplus: Consumption of fixed capital	M.EUR
+Operating surplus: Remaining net operating surplus	M.EUR

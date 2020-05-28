@@ -1,0 +1,2 @@
+Material use	Domestic Extraction	kt
+Water consumption	Water Consumption Blue - Total	Mm3

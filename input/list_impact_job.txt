@@ -1,0 +1,6 @@
+Employment: Low-skilled male	1000 p
+Employment: Low-skilled female	1000 p
+Employment: Medium-skilled male	1000 p
+Employment: Medium-skilled female	1000 p
+Employment: High-skilled male	1000 p
+Employment: High-skilled female	1000 p
