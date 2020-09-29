@@ -300,10 +300,41 @@ def store_delta(list_df_delta_txt, file_name_pattern):
                     csv_file.writerow(row_write)
 
 
+# def write_base(dict_ef_eb_base,
+#                dict_vf_eb_base_emp,
+#                dict_vf_eb_base_va,
+#                file_name_pattern):
+#     """ Write base results.
+
+#     """
+
+#     dict_ef_eb_base_prep = arrange_ef_result(dict_ef_eb_base)
+#     dict_vf_eb_base_emp_prep = arrange_vf_result(dict_vf_eb_base_emp)
+#     dict_vf_eb_base_va_prep = arrange_vf_result(dict_vf_eb_base_va)
+
+#     df_base_plt, df_base_txt = prepare_base_results(dict_ef_eb_base_prep,
+#                                                     dict_vf_eb_base_emp_prep,
+#                                                     dict_vf_eb_base_va_prep)
+#     store_base(df_base_txt, file_name_pattern)
+
+#     return df_base_plt, df_base_txt
+
+def add_direct(df_base_txt,
+               df_base_cbs_emp,
+               df_base_cbs_va):
+    df_base_txt_incl_direct = df_base_txt.copy()
+    df_base_txt_incl_direct[cfg.TUP_JOB_SCALAR_BASE[1]][cfg.TUP_NL[0]] = (
+        df_base_txt[cfg.TUP_JOB_SCALAR_BASE[1]][cfg.TUP_NL[0]]+float(
+            df_base_cbs_emp.values))
+    df_base_txt_incl_direct[cfg.TUP_VA_SCALAR_BASE[1]][cfg.TUP_NL[0]] = (
+        df_base_txt[cfg.TUP_VA_SCALAR_BASE[1]][cfg.TUP_NL[0]]+float(
+            df_base_cbs_va.values)/cfg.TUP_VA_SCALAR_BASE[2])
+
+    return df_base_txt_incl_direct
+
 def write_base(dict_ef_eb_base,
                dict_vf_eb_base_emp,
-               dict_vf_eb_base_va,
-               file_name_pattern):
+               dict_vf_eb_base_va):
     """ Write base results.
 
     """
@@ -315,7 +346,6 @@ def write_base(dict_ef_eb_base,
     df_base_plt, df_base_txt = prepare_base_results(dict_ef_eb_base_prep,
                                                     dict_vf_eb_base_emp_prep,
                                                     dict_vf_eb_base_va_prep)
-    store_base(df_base_txt, file_name_pattern)
 
     return df_base_plt, df_base_txt
 
@@ -323,8 +353,7 @@ def write_base(dict_ef_eb_base,
 def write_delta(dict_ef_eb_delta,
                 dict_vf_eb_delta_emp,
                 dict_vf_eb_delta_va,
-                df_base_txt,
-                file_name_pattern):
+                df_base_txt):
     """ Write delta results.
 
     """
@@ -338,7 +367,7 @@ def write_delta(dict_ef_eb_delta,
                              dict_vf_eb_delta_emp_prep,
                              dict_vf_eb_delta_va_prep))
 
-    store_delta(list_df_delta_txt, file_name_pattern)
+    return list_df_delta_plt, list_df_delta_txt
 
 
 def write_y_tno(df, dict_meas_id_short_long, time, sector):

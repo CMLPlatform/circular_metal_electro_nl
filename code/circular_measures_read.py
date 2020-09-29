@@ -36,6 +36,8 @@
 """
 
 import csv
+import numpy as np
+
 import os
 import pickle
 
@@ -376,25 +378,62 @@ def read_dict_impact():
     return dict_impact
 
 
-def read_bridge_cbs_eb():
-    """ Read bridge matrix from CBS to EB classification.
+# def read_bridge_cbs_eb():
+#     """ Read bridge matrix from CBS to EB classification.
+
+#     """
+
+#     df_bridge_cbs_eb = pd.read_csv(
+#         cfg.INPUT_DIR_PATH+cfg.BRIDGE_CBS_EB_FILE_NAME,
+#         index_col=0,
+#         header=[0, 1],
+#         sep='\t')
+#     list_df_bridge_cbs_eb_col = list(df_bridge_cbs_eb.columns)
+#     list_df_bridge_cbs_eb_col_int = []
+#     for tup_cbs_prod in list_df_bridge_cbs_eb_col:
+#         str_cbs_prod_id, cbs_prod_name = tup_cbs_prod
+#         cbs_prod_id = int(str_cbs_prod_id)
+#         tup_cbs_prod_int = (cbs_prod_id, cbs_prod_name)
+#         list_df_bridge_cbs_eb_col_int.append(tup_cbs_prod_int)
+#     df_bridge_cbs_eb.columns = list_df_bridge_cbs_eb_col_int
+
+
+#     return df_bridge_cbs_eb
+
+def gen_bridge_sbi_eb(dict_io_eb_2010):
+    """ Generate bridge matrix from SBI to EB classification.
 
     """
 
-    df_bridge_cbs_eb = pd.read_csv(
-        cfg.INPUT_DIR_PATH+cfg.BRIDGE_CBS_EB_FILE_NAME,
-        index_col=0,
-        header=[0, 1],
-        sep='\t')
-    list_df_bridge_cbs_eb_col = list(df_bridge_cbs_eb.columns)
-    list_df_bridge_cbs_eb_col_int = []
-    for tup_cbs_prod in list_df_bridge_cbs_eb_col:
-        str_cbs_prod_id, cbs_prod_name = tup_cbs_prod
-        cbs_prod_id = int(str_cbs_prod_id)
-        tup_cbs_prod_int = (cbs_prod_id, cbs_prod_name)
-        list_df_bridge_cbs_eb_col_int.append(tup_cbs_prod_int)
-    df_bridge_cbs_eb.columns = list_df_bridge_cbs_eb_col_int
-    return df_bridge_cbs_eb
+    df_b_sbi_eb = pd.read_csv(
+        cfg.INPUT_DIR_PATH+cfg.B_SBI_EB_FILE_NAME,
+        sep = '\t',
+        index_col = [0],
+        header = [0,1])
+    df_eb_y = dict_io_eb_2010['tY']
+
+    # Sum final demand to country level.
+    df_eb_y_cntr = df_eb_y.sum(axis=1, level=0)
+    df_eb_y_nl = df_eb_y_cntr['NL']
+    df_eb_y_nl_nl = df_eb_y_nl['NL']
+    df_eb_y_nl_nl_diag = pd.DataFrame(np.diag(df_eb_y_nl_nl),
+                                      index = df_eb_y_nl_nl.index,
+                                      columns = df_eb_y_nl_nl.index)
+    df_b_sbi_eb_nl = df_eb_y_nl_nl_diag.dot(df_b_sbi_eb)
+    df_b_sbi_eb_nl_sum = df_b_sbi_eb_nl.sum()
+    df_b_sbi_eb_nl_norm = df_b_sbi_eb_nl/df_b_sbi_eb_nl_sum
+
+    l_df_b_sbi_eb_nl_norm_col = list(df_b_sbi_eb_nl_norm.columns)
+    l_df_b_sbi_eb_nl_norm_col_int = []
+    for tup_sbi_prod in l_df_b_sbi_eb_nl_norm_col:
+        str_sbi_prod_id, sbi_prod_name = tup_sbi_prod
+        sbi_prod_id = int(str_sbi_prod_id)
+        tup_sbi_prod_int = (sbi_prod_id, sbi_prod_name)
+        l_df_b_sbi_eb_nl_norm_col_int.append(tup_sbi_prod_int)
+    df_b_sbi_eb_nl_norm.columns = l_df_b_sbi_eb_nl_norm_col_int
+
+    return df_b_sbi_eb_nl_norm
+
 
 
 def read_io_cbs_2010():
@@ -410,16 +449,27 @@ def read_io_cbs_2010():
     return df_io_cbs_2010
 
 
-def read_bridge_tno_circular_io():
+# def read_bridge_tno_circular_io():
+#     """ Read bridge matrix from TNO to CBS circularity activities.
+
+#     """
+#     df_bridge_tno_circular_io = pd.read_csv(
+#         cfg.INPUT_DIR_PATH+cfg.BRIDGE_TNO_CIRCULAR_IO_FILE_NAME,
+#         header=[0, 1],
+#         index_col=[0, 1],
+#         sep='\t')
+#     return df_bridge_tno_circular_io
+
+def read_b_cpa_circ_sbi():
     """ Read bridge matrix from TNO to CBS circularity activities.
 
     """
-    df_bridge_tno_circular_io = pd.read_csv(
-        cfg.INPUT_DIR_PATH+cfg.BRIDGE_TNO_CIRCULAR_IO_FILE_NAME,
+    df_b_cpa_circ_sbi = pd.read_csv(
+        cfg.INPUT_DIR_PATH+cfg.B_CPA_CIRC_SBI_FILE_NAME,
         header=[0, 1],
         index_col=[0, 1],
         sep='\t')
-    return df_bridge_tno_circular_io
+    return df_b_cpa_circ_sbi
 
 
 def read_bridge_tno_primary_eb():
@@ -434,3 +484,16 @@ def read_bridge_tno_primary_eb():
         index_col=0,
         sep='\t')
     return df_bridge_tno_eb
+
+# def read_b_cpa_prim_eb():
+#     """ Read bridge matrix from TNO classification to EXIOBASE.
+
+#     """
+#     ut.log('Reading bridge matrix from TNO classification to EXIOBASE.')
+
+#     df_b_cpa_prim_eb = pd.read_csv(
+#         cfg.INPUT_DIR_PATH+cfg.B_CPA_PRIM_EB_FILE_NAME,
+#         header=[0, 1],
+#         index_col=0,
+#         sep='\t')
+#     return df_b_cpa_prim_eb

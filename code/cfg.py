@@ -67,9 +67,12 @@ LIST_OUTPUT_DIR_PATH = [RESULT_TXT_DIR_PATH,
 
 # Define file names of input data.
 BRIDGE_TNO_EB_FILE_NAME = 'bridge_tno_primary_eb.txt'
-BRIDGE_TNO_CIRCULAR_IO_FILE_NAME = 'bridge_tno_circular_io.txt'
+# B_CPA_PRIM_EB_FILE_NAME = 'b_cpa_prim_eb.txt'
+# BRIDGE_TNO_CIRCULAR_IO_FILE_NAME = 'bridge_tno_circular_io.txt'
+B_CPA_CIRC_SBI_FILE_NAME = 'b_cpa_circ_sbi.txt'
 IO_CBS_2010_FILE_NAME = 'io_cbs_2010.txt'
-BRIDGE_CBS_EB_FILE_NAME = 'bridge_cbs_eb.txt'
+# BRIDGE_CBS_EB_FILE_NAME = 'bridge_cbs_eb.txt'
+B_SBI_EB_FILE_NAME = 'b_sbi_eb.txt'
 
 DELTA_FILE_NAME = 'deltaberekening_delta.txt'
 PROD_ID_FILE_NAME = 'deltaberekening_prod_id.txt'
@@ -143,38 +146,67 @@ LIST_TUP_REG = [TUP_NL, TUP_EU28_NO_NL, TUP_WORLD_NO_EU28]
 
 TNO_EURO_KILO2MEGA_SCALAR = 1e3
 
-TUP_CF_SCALAR_BASE = ('Global Warming ' + r'[$Pg\/CO_2\/eq.$]',
-                      ('Global Warming', 'PgCO2eq.'), 1e12)
-TUP_MF_SCALAR_BASE = ('Material use [Mt]',
-                      ('Material use', 'Mt'), 1e6)
+# TUP_CF_SCALAR_BASE = ('Global Warming ' + r'[$Pg\/CO_2\/eq.$]',
+#                       ('Global Warming', 'PgCO2eq.'),
+#                       1e12)
+TUP_CF_SCALAR_BASE = ('Global Warming ' + r'[$Tg\/CO_2\/eq.$]',
+                       ('Global Warming', 'TgCO2eq.'),
+                        1e9)
+# TUP_MF_SCALAR_BASE = ('Material use [Mt]',
+#                       ('Material use', 'Mt'),
+#                       1e6)
+TUP_MF_SCALAR_BASE = ('Material use [kt]',
+                       ('Material use', 'kt'), 1e3)
 TUP_WF_SCALAR_BASE = ('Water consumption ' + r'[$Gm^3$]',
-                      ('Water consumption', 'Gm3'), 1e3)
-TUP_LF_SCALAR_BASE = ('Land use' + r'[$Gm^2$]',
-                      ('Land use', 'Gm2'), 1e6)
+                      ('Water consumption', 'Gm3'),
+                      1e3)
+# TUP_LF_SCALAR_BASE = ('Land use' + r'[$Gm^2$]',
+#                       ('Land use', 'Gm2'),
+#                       1e6)
+TUP_LF_SCALAR_BASE = ('Land use' + r'[$Mm^2$]',
+                       ('Land use', 'Mm2'),
+                       1e3)
 TUP_JOB_SCALAR_BASE = ('Employment [M]',
-                       ('Employment', 'M'), 1e3)
-TUP_VA_SCALAR_BASE = ('Value added [T€]',
-                      ('Value added', 'T€'), 1e6)
+                       ('Employment', 'M'),
+                       1e3)
+# TUP_VA_SCALAR_BASE = ('Value added [T€]',
+#                       ('Value added', 'T€'),
+#                       1e6)
+TUP_VA_SCALAR_BASE = ('Value added [G€]',
+                       ('Value added', 'G€'),
+                       1e3)
 
 TUP_CF_SCALAR_DELTA = ('Global Warming ' + r'[$Tg\/CO_2\/eq.$]',
-                       ('Global Warming', 'TgCO2eq.'), 1e9)
+                       ('Global Warming', 'TgCO2eq.'),
+                       1e9)
 TUP_MF_SCALAR_DELTA = ('Material use [kt]',
                        ('Material use', 'kt'), 1e3)
 TUP_WF_SCALAR_DELTA = ('Water consumption ' + r'[$Gm^3$]',
-                       ('Water consumption', 'Gm3'), 1e3)
+                       ('Water consumption', 'Gm3'),
+                       1e3)
 TUP_LF_SCALAR_DELTA = ('Land use' + r'[$Mm^2$]',
-                       ('Land use', 'Mm2'), 1e3)
+                       ('Land use', 'Mm2'),
+                       1e3)
 TUP_JOB_SCALAR_DELTA = ('Employment [M]',
-                        ('Employment', 'M'), 1e3)
+                        ('Employment', 'M'),
+                        1e3)
 TUP_VA_SCALAR_DELTA = ('Value added [G€]',
-                       ('Value added', 'G€'), 1e3)
+                       ('Value added', 'G€'),
+                       1e3)
 
 BASE_NET_FILE_NAME_PATTERN = 'base_net'
 BASE_CIRC_FILE_NAME_PATTERN = 'base_circ'
 BASE_PRIM_FILE_NAME_PATTERN = 'base_prim'
 
+BASE_NET_DIRECT_FILE_NAME_PATTERN = 'base_net_inc_direct'
+BASE_CIRC_DIRECT_FILE_NAME_PATTERN = 'base_circ_inc_direct'
+
 DELTA_NET_FILE_NAME_PATTERN = 'delta_net'
 DELTA_CIRC_FILE_NAME_PATTERN = 'delta_circ'
 DELTA_PRIM_FILE_NAME_PATTERN = 'delta_prim'
+
+DELTA_NET_DIRECT_FILE_NAME_PATTERN = 'delta_net_direct'
+DELTA_CIRC_DIRECT_FILE_NAME_PATTERN = 'delta_circ_direct'
+
 
 LIST_MEAS_ID_SHORT_LONG_FILE_NAME = 'list_meas_id_short_long.txt'

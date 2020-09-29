@@ -2,3 +2,4 @@ code/__pycache__/
 *.pkl
 output/
 code/.pylint.d/
+input/OLD/

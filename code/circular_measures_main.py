@@ -72,14 +72,15 @@ def main():
     dict_impact = cmr.read_dict_impact()
 
     # Read bridge from TNO to CBS IO circularity sectors.
-    df_bridge_tno_circular_io = cmr.read_bridge_tno_circular_io()
+    # df_bridge_tno_circular_io = cmr.read_bridge_tno_circular_io()
+    df_b_cpa_circ_sbi = cmr.read_b_cpa_circ_sbi()
 
     # Read bridge from TNO to EXIOBASE.
     df_bridge_tno_primary_eb = cmr.read_bridge_tno_primary_eb()
 
     # Read bridge from CBS to EXIOBASE.
-    df_bridge_cbs_eb = cmr.read_bridge_cbs_eb()
-    # cmw.write_list_cbs_eb(df_bridge_cbs_eb)
+    # df_bridge_cbs_eb = cmr.read_bridge_cbs_eb()
+    df_bridge_sbi_eb = cmr.gen_bridge_sbi_eb(dict_io_eb_2010_proc)
 
     # Calculate production recipe of repair sectors.
     df_io_cbs_2010 = cmr.read_io_cbs_2010()
@@ -116,14 +117,17 @@ def main():
         sep='\t')
 
     # Bridge baseline in circularity sectors from TNO to CBS IO.
-    df_y_base_cbs_circular = df_bridge_tno_circular_io.dot(
+    # df_y_base_cbs_circular = df_bridge_tno_circular_io.dot(
+    #     df_y_base_tno_circular)
+    df_y_base_cbs_circular = df_b_cpa_circ_sbi.dot(
         df_y_base_tno_circular)
 
     df_y_base_cbs_circular_a = df_io_cbs_2010_circular_a.dot(
         df_y_base_cbs_circular)
 
     # Bridge circularity demand from CBS to EXIOBASE.
-    df_y_base_eb_circular_a = df_bridge_cbs_eb.dot(df_y_base_cbs_circular_a)
+    # df_y_base_eb_circular_a = df_bridge_cbs_eb.dot(df_y_base_cbs_circular_a)
+    df_y_base_eb_circular_a = df_bridge_sbi_eb.dot(df_y_base_cbs_circular_a)
 
     df_y_base_eb_circular_a_source_nl = cmc.calc_y_eb_source(
         df_bridge_eb_source_nl,
@@ -254,7 +258,10 @@ def main():
         sep='\t')
 
     # Bridge shifts in circularity sectors from TNO to CBS IO.
-    df_y_delta_cbs_circular = df_bridge_tno_circular_io.dot(
+    # df_y_delta_cbs_circular = df_bridge_tno_circular_io.dot(
+    #     df_y_delta_tno_circular)
+
+    df_y_delta_cbs_circular = df_b_cpa_circ_sbi.dot(
         df_y_delta_tno_circular)
 
     # Calculate production recipe of repair sectors.
@@ -313,7 +320,8 @@ def main():
     df_delta_cbs_emp = df_cbs_emp_2010_coeff.dot(df_y_delta_cbs_circular)
 
     # Bridge circularity demand from CBS to EXIOBASE.
-    df_y_delta_eb_circular_a = df_bridge_cbs_eb.dot(df_y_delta_cbs_circular_a)
+    # df_y_delta_eb_circular_a = df_bridge_cbs_eb.dot(df_y_delta_cbs_circular_a)
+    df_y_delta_eb_circular_a = df_bridge_sbi_eb.dot(df_y_delta_cbs_circular_a)
     df_y_delta_eb_circular_a_source_nl = cmc.calc_y_eb_source(
         df_bridge_eb_source_nl,
         df_y_delta_eb_circular_a)
@@ -390,38 +398,67 @@ def main():
     df_base_plt_prim, df_base_txt_prim = cmw.write_base(
         dict_ef_eb_base_prim,
         dict_vf_eb_base_emp_prim,
-        dict_vf_eb_base_va_prim,
-        cfg.BASE_PRIM_FILE_NAME_PATTERN)
+        dict_vf_eb_base_va_prim)
+
+    cmw.store_base(df_base_txt_prim, cfg.BASE_PRIM_FILE_NAME_PATTERN)
 
     df_base_plt_circ, df_base_txt_circ = cmw.write_base(
         dict_ef_eb_base_circ,
         dict_vf_eb_base_emp_circ,
-        dict_vf_eb_base_va_circ,
-        cfg.BASE_CIRC_FILE_NAME_PATTERN)
+        dict_vf_eb_base_va_circ)
+
+    cmw.store_base(df_base_txt_circ, cfg.BASE_CIRC_FILE_NAME_PATTERN)
+
+    df_base_txt_circ_inc_direct = cmw.add_direct(df_base_txt_circ,
+                                                 df_base_cbs_emp,
+                                                 df_base_cbs_va)
+
+
+    cmw.store_base(df_base_txt_circ_inc_direct,
+                   cfg.BASE_CIRC_DIRECT_FILE_NAME_PATTERN)
+
 
     df_base_plt_net, df_base_txt_net = cmw.write_base(
         dict_ef_eb_base_net,
         dict_vf_eb_base_emp_net,
-        dict_vf_eb_base_va_net,
-        cfg.BASE_NET_FILE_NAME_PATTERN)
+        dict_vf_eb_base_va_net)
 
-    cmw.write_delta(dict_ef_eb_delta_net,
-                    dict_vf_eb_delta_emp_net,
-                    dict_vf_eb_delta_va_net,
-                    df_base_txt_net,
-                    cfg.DELTA_NET_FILE_NAME_PATTERN)
+    cmw.store_base(df_base_txt_net, cfg.BASE_NET_FILE_NAME_PATTERN)
 
-    cmw.write_delta(dict_ef_eb_delta_prim,
-                    dict_vf_eb_delta_emp_prim,
-                    dict_vf_eb_delta_va_prim,
-                    df_base_txt_prim,
-                    cfg.DELTA_PRIM_FILE_NAME_PATTERN)
+    df_base_txt_net_inc_direct = cmw.add_direct(df_base_txt_net,
+                                                df_base_cbs_emp,
+                                                df_base_cbs_va)
 
-    cmw.write_delta(dict_ef_eb_delta_circ,
-                    dict_vf_eb_delta_emp_circ,
-                    dict_vf_eb_delta_va_circ,
-                    df_base_txt_circ,
-                    cfg.DELTA_CIRC_FILE_NAME_PATTERN)
+
+    cmw.store_base(df_base_txt_net_inc_direct,
+                   cfg.BASE_NET_DIRECT_FILE_NAME_PATTERN)
+
+
+    list_df_delta_plt_net, list_df_delta_txt_net = cmw.write_delta(
+        dict_ef_eb_delta_net,
+        dict_vf_eb_delta_emp_net,
+        dict_vf_eb_delta_va_net,
+        df_base_txt_net)
+
+    cmw.store_delta(list_df_delta_txt_net, cfg.DELTA_NET_FILE_NAME_PATTERN)
+
+
+    list_df_delta_plt_prim, list_df_delta_txt_prim = cmw.write_delta(
+        dict_ef_eb_delta_prim,
+        dict_vf_eb_delta_emp_prim,
+        dict_vf_eb_delta_va_prim,
+        df_base_txt_prim)
+
+    cmw.store_delta(list_df_delta_txt_prim, cfg.DELTA_PRIM_FILE_NAME_PATTERN)
+
+
+    list_df_delta_plt_circ, list_df_delta_txt_circ = cmw.write_delta(
+        dict_ef_eb_delta_circ,
+        dict_vf_eb_delta_emp_circ,
+        dict_vf_eb_delta_va_circ,
+        df_base_txt_circ)
+
+    cmw.store_delta(list_df_delta_txt_circ, cfg.DELTA_CIRC_FILE_NAME_PATTERN)
 
     cmw.write_emp_direct(df_base_cbs_emp, 'base')
     cmw.write_emp_direct(df_delta_cbs_emp, 'delta')
