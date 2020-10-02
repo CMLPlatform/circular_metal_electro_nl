@@ -377,13 +377,13 @@ def calc_circular_prod_recipe(df_io_cbs_2010, dict_cbs_emp):
 
     dict_io_cbs_2010_circular_sum = df_io_cbs_2010_circular_sum.to_dict()
     dict_emp_frac = {}
-    dict_emp_frac['Employment [M]'] = {}
+    dict_emp_frac['Employment [k]'] = {}
     for tup_prod_id_name in dict_io_cbs_2010_circular_sum:
         prod_id, prod_name = tup_prod_id_name
         val_sum = dict_io_cbs_2010_circular_sum[tup_prod_id_name]
         val_emp = dict_cbs_emp[prod_name]
         val_emp_frac = val_emp/val_sum
-        dict_emp_frac['Employment [M]'][tup_prod_id_name] = val_emp_frac
+        dict_emp_frac['Employment [k]'][tup_prod_id_name] = val_emp_frac
     df_emp_frac = pd.DataFrame.from_dict(dict_emp_frac).T
 
     return (df_io_cbs_2010_circular_a,

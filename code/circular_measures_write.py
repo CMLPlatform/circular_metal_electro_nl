@@ -352,8 +352,7 @@ def write_base(dict_ef_eb_base,
 
 def write_delta(dict_ef_eb_delta,
                 dict_vf_eb_delta_emp,
-                dict_vf_eb_delta_va,
-                df_base_txt):
+                dict_vf_eb_delta_va):
     """ Write delta results.
 
     """
@@ -449,3 +448,179 @@ def write_va_direct(df_va, time):
                 val = dict_va[meas_id][va]
                 row_write = [meas_id, val]
                 csv_file.writerow(row_write)
+
+
+def cat_base(df_base_txt_prim, df_base_txt_circ_inc_direct):
+    d_cat_base = {}
+    d_cat_base['Prim'] = {}
+    d_base_txt_prim = df_base_txt_prim.to_dict()
+    for t_fp in d_base_txt_prim:
+        d_cat_base['Prim'][t_fp] = {}
+        for reg in d_base_txt_prim[t_fp]:
+            val = d_base_txt_prim[t_fp][reg]
+            d_cat_base['Prim'][t_fp][reg] = val
+
+    d_cat_base['Circ'] = {}
+    d_base_txt_circ_inc_direct = df_base_txt_circ_inc_direct.to_dict()
+    for t_fp in d_base_txt_circ_inc_direct:
+        d_cat_base['Circ'][t_fp] = {}
+        for reg in d_base_txt_circ_inc_direct[t_fp]:
+            val = d_base_txt_circ_inc_direct[t_fp][reg]
+            d_cat_base['Circ'][t_fp][reg] = val
+    return d_cat_base
+
+def write_cat_base(d_cat_base):
+    with open(cfg.RESULT_TXT_DIR_PATH+'d_cat_base.txt', 'w') as write_file:
+        csv_file = csv.writer(write_file, delimiter='\t', lineterminator='\n')
+        row_write = ['Region',
+                     'Activity',
+                     'Footprint ID',
+                     'Footprint',
+                     'Value',
+                     'Unit']
+        csv_file.writerow(row_write)
+        for act in d_cat_base:
+            for t_fp_id, t_fp in enumerate(d_cat_base[act]):
+                fp, unit = t_fp
+                for reg in d_cat_base[act][t_fp]:
+                    val = d_cat_base[act][t_fp][reg]
+                    row_write = [reg, act, t_fp_id, fp, val, unit]
+                    csv_file.writerow(row_write)
+
+def cat_delta(dict_ef_eb_delta_prim,
+              dict_vf_eb_delta_emp_prim,
+              dict_vf_eb_delta_va_prim,
+              dict_ef_eb_delta_circ,
+              dict_vf_eb_delta_emp_circ,
+              dict_vf_eb_delta_va_circ,
+              df_delta_cbs_emp,
+              df_delta_cbs_va):
+    d_fp_tup_ef_scalar = {'Carbon': cfg.TUP_CF_SCALAR_DELTA,
+                      'Material use': cfg.TUP_MF_SCALAR_DELTA,
+                      'Water consumption': cfg.TUP_WF_SCALAR_DELTA,
+                      'Land use': cfg.TUP_LF_SCALAR_DELTA}
+    d_cat_delta = {}
+
+    act = 'Prim'
+    d_cat_delta[act] = {}
+    for meas_id in dict_ef_eb_delta_prim:
+        for imp_cat in dict_ef_eb_delta_prim[meas_id]:
+            df = dict_ef_eb_delta_prim[meas_id][imp_cat]
+            d_df = df.to_dict()
+            t_fp = d_fp_tup_ef_scalar[imp_cat]
+            fp_plt, t_fp_txt, fp_scalar = t_fp
+            fp, unit = t_fp_txt
+            if t_fp_txt not in d_cat_delta[act]:
+                d_cat_delta[act][t_fp_txt] = {}
+            for reg in d_df:
+                if reg not in d_cat_delta[act][t_fp_txt]:
+                    d_cat_delta[act][t_fp_txt][reg] = 0
+                for imp_cat in d_df[reg]:
+                    val = d_df[reg][imp_cat]
+                    val_scalar = val/fp_scalar
+                    d_cat_delta[act][t_fp_txt][reg] += val_scalar
+
+    emp_plt, t_emp_txt, emp_scalar =  cfg.TUP_JOB_SCALAR_DELTA
+    emp, emp_unit = t_emp_txt
+    d_cat_delta[act][t_emp_txt] = {}
+    for meas_id in dict_vf_eb_delta_emp_prim:
+        df = dict_vf_eb_delta_emp_prim[meas_id]
+        d_df = df.to_dict()
+        for reg in d_df:
+            if reg not in d_cat_delta[act][t_emp_txt]:
+                d_cat_delta[act][t_emp_txt][reg] = 0
+            for t_imp_cat in d_df[reg]:
+                val = d_df[reg][t_imp_cat]/emp_scalar
+                d_cat_delta[act][t_emp_txt][reg] += val
+
+    va_plt, t_va_txt, va_scalar = cfg.TUP_VA_SCALAR_DELTA
+    va, va_unit = t_va_txt
+    d_cat_delta[act][t_va_txt] = {}
+    for meas_id in dict_vf_eb_delta_va_prim:
+        df = dict_vf_eb_delta_va_prim[meas_id]
+        d_df = df.to_dict()
+        for reg in d_df:
+            if reg not in d_cat_delta[act][t_va_txt]:
+                d_cat_delta[act][t_va_txt][reg] = 0
+            for t_imp_cat in d_df[reg]:
+                val = d_df[reg][t_imp_cat]/va_scalar
+                d_cat_delta[act][t_va_txt][reg] += val
+
+    act = 'Circ'
+    d_cat_delta[act] = {}
+    for meas_id in dict_ef_eb_delta_circ:
+        for imp_cat in dict_ef_eb_delta_circ[meas_id]:
+            df = dict_ef_eb_delta_circ[meas_id][imp_cat]
+            d_df = df.to_dict()
+            t_fp = d_fp_tup_ef_scalar[imp_cat]
+            fp_plt, t_fp_txt, fp_scalar = t_fp
+            fp, unit = t_fp_txt
+            if t_fp_txt not in d_cat_delta[act]:
+                d_cat_delta[act][t_fp_txt] = {}
+            for reg in d_df:
+                if reg not in d_cat_delta[act][t_fp_txt]:
+                    d_cat_delta[act][t_fp_txt][reg] = 0
+                for imp_cat in d_df[reg]:
+                    val = d_df[reg][imp_cat]
+                    val_scalar = val/fp_scalar
+                    d_cat_delta[act][t_fp_txt][reg] += val_scalar
+                    # print(meas_id, fp, unit, reg, imp_cat, val, val_scalar)
+
+    emp_plt, t_emp_txt, emp_scalar =  cfg.TUP_JOB_SCALAR_DELTA
+    emp, emp_unit = t_emp_txt
+    d_cat_delta[act][t_emp_txt] = {}
+    for meas_id in dict_vf_eb_delta_emp_circ:
+        df = dict_vf_eb_delta_emp_circ[meas_id]
+        d_df = df.to_dict()
+        for reg in d_df:
+            if reg not in d_cat_delta[act][t_emp_txt]:
+                d_cat_delta[act][t_emp_txt][reg] = 0
+            for t_imp_cat in d_df[reg]:
+                val = d_df[reg][t_imp_cat]
+                d_cat_delta[act][t_emp_txt][reg] += val
+                print(emp, emp_unit, meas_id, reg, t_imp_cat, val)
+
+    d_delta_cbs_emp = df_delta_cbs_emp.to_dict()
+    for meas_id in d_delta_cbs_emp:
+        for fp_emp in d_delta_cbs_emp[meas_id]:
+            val = d_delta_cbs_emp[meas_id][fp_emp]
+            d_cat_delta['Circ'][t_emp_txt]['NL'] += val/emp_scalar
+
+    va_plt, t_va_txt, va_scalar = cfg.TUP_VA_SCALAR_DELTA
+    va, va_unit = t_va_txt
+    d_cat_delta[act][t_va_txt] = {}
+    for meas_id in dict_vf_eb_delta_va_circ:
+        df = dict_vf_eb_delta_va_circ[meas_id]
+        d_df = df.to_dict()
+        for reg in d_df:
+            if reg not in d_cat_delta[act][t_va_txt]:
+                d_cat_delta[act][t_va_txt][reg] = 0
+            for t_imp_cat in d_df[reg]:
+                val = d_df[reg][t_imp_cat]/va_scalar
+                d_cat_delta[act][t_va_txt][reg] += val
+
+    d_delta_cbs_va = df_delta_cbs_va.to_dict()
+    for meas_id in d_delta_cbs_va:
+        for fp_va in d_delta_cbs_va[meas_id]:
+            val = d_delta_cbs_va[meas_id][fp_va]
+            d_cat_delta['Circ'][t_va_txt]['NL'] += val/va_scalar
+
+    return d_cat_delta
+
+def write_cat_delta(d_cat_delta):
+    with open(cfg.RESULT_TXT_DIR_PATH+'d_cat_delta.txt', 'w') as write_file:
+        csv_file = csv.writer(write_file, delimiter='\t', lineterminator='\n')
+        row_write = ['Region',
+                     'Activity',
+                     'Footprint ID',
+                     'Footprint',
+                     'Value',
+                     'Unit']
+        csv_file.writerow(row_write)
+        for act in d_cat_delta:
+            for t_fp_id, t_fp in enumerate(d_cat_delta[act]):
+                fp, unit = t_fp
+                for reg in d_cat_delta[act][t_fp]:
+                    val = d_cat_delta[act][t_fp][reg]
+                    row_write = [reg, act, t_fp_id, fp, val, unit]
+                    csv_file.writerow(row_write)

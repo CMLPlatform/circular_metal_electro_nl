@@ -66,8 +66,8 @@ LIST_OUTPUT_DIR_PATH = [RESULT_TXT_DIR_PATH,
                         LOG_DIR_PATH]
 
 # Define file names of input data.
-BRIDGE_TNO_EB_FILE_NAME = 'bridge_tno_primary_eb.txt'
-# B_CPA_PRIM_EB_FILE_NAME = 'b_cpa_prim_eb.txt'
+# BRIDGE_TNO_EB_FILE_NAME = 'bridge_tno_primary_eb.txt'
+B_CPA_PRIM_EB_FILE_NAME = 'b_cpa_prim_eb.txt'
 # BRIDGE_TNO_CIRCULAR_IO_FILE_NAME = 'bridge_tno_circular_io.txt'
 B_CPA_CIRC_SBI_FILE_NAME = 'b_cpa_circ_sbi.txt'
 IO_CBS_2010_FILE_NAME = 'io_cbs_2010.txt'
@@ -126,21 +126,35 @@ LOG_FILE_NAME = 'log.txt'
 log_mode = 'w'
 
 # Define region tuples
-TUP_NL = ('The Netherlands', ['NL'])
+# TUP_NL = ('The Netherlands', ['NL'])
 
-TUP_EU28_NO_NL = ('EU28 ex. the Netherlands', ['SE', 'AT', 'BE', 'BG', 'HR',
-                                               'CY', 'CZ', 'DK', 'EE', 'FI',
-                                               'FR', 'DE', 'GR', 'HU', 'IE',
-                                               'IT', 'LV', 'LT', 'LU', 'MT',
-                                               'PL', 'PT', 'RO', 'SK', 'SI',
-                                               'ES', 'GB'])
+# TUP_EU28_NO_NL = ('EU28 ex. the Netherlands', ['SE', 'AT', 'BE', 'BG', 'HR',
+#                                                'CY', 'CZ', 'DK', 'EE', 'FI',
+#                                                'FR', 'DE', 'GR', 'HU', 'IE',
+#                                                'IT', 'LV', 'LT', 'LU', 'MT',
+#                                                'PL', 'PT', 'RO', 'SK', 'SI',
+#                                                'ES', 'GB'])
 
-TUP_WORLD_NO_EU28 = ('Rest of World ex. EU28', ['US', 'JP', 'CN', 'CA', 'KR',
-                                                'BR', 'IN', 'MX', 'RU', 'AU',
-                                                'CH', 'TR', 'TW', 'NO', 'ID',
-                                                'ZA', 'WA', 'WL', 'WE', 'WF',
-                                                'WM'])
+# TUP_WORLD_NO_EU28 = ('Rest of World ex. EU28', ['US', 'JP', 'CN', 'CA', 'KR',
+#                                                 'BR', 'IN', 'MX', 'RU', 'AU',
+#                                                 'CH', 'TR', 'TW', 'NO', 'ID',
+#                                                 'ZA', 'WA', 'WL', 'WE', 'WF',
+#                                                 'WM'])
 
+TUP_NL = ('NL', ['NL'])
+
+TUP_EU28_NO_NL = ('RoE', ['SE', 'AT', 'BE', 'BG', 'HR',
+                          'CY', 'CZ', 'DK', 'EE', 'FI',
+                          'FR', 'DE', 'GR', 'HU', 'IE',
+                          'IT', 'LV', 'LT', 'LU', 'MT',
+                          'PL', 'PT', 'RO', 'SK', 'SI',
+                          'ES', 'GB'])
+
+TUP_WORLD_NO_EU28 = ('RoW', ['US', 'JP', 'CN', 'CA', 'KR',
+                             'BR', 'IN', 'MX', 'RU', 'AU',
+                             'CH', 'TR', 'TW', 'NO', 'ID',
+                             'ZA', 'WA', 'WL', 'WE', 'WF',
+                             'WM'])
 
 LIST_TUP_REG = [TUP_NL, TUP_EU28_NO_NL, TUP_WORLD_NO_EU28]
 
@@ -155,20 +169,32 @@ TUP_CF_SCALAR_BASE = ('Global Warming ' + r'[$Tg\/CO_2\/eq.$]',
 # TUP_MF_SCALAR_BASE = ('Material use [Mt]',
 #                       ('Material use', 'Mt'),
 #                       1e6)
-TUP_MF_SCALAR_BASE = ('Material use [kt]',
-                       ('Material use', 'kt'), 1e3)
-TUP_WF_SCALAR_BASE = ('Water consumption ' + r'[$Gm^3$]',
-                      ('Water consumption', 'Gm3'),
-                      1e3)
+TUP_MF_SCALAR_BASE = ('Material use [Mt]',
+                       ('Material use', 'Mt'),
+                       1e3)
+
+# TUP_WF_SCALAR_BASE = ('Water consumption ' + r'[$Gm^3$]',
+#                       ('Water consumption', 'Gm3'),
+#                       1e3)
+TUP_WF_SCALAR_BASE = ('Water consumption ' + r'[$Mm^3$]',
+                      ('Water consumption', 'Mm3'),
+                      1)
+
 # TUP_LF_SCALAR_BASE = ('Land use' + r'[$Gm^2$]',
 #                       ('Land use', 'Gm2'),
 #                       1e6)
 TUP_LF_SCALAR_BASE = ('Land use' + r'[$Mm^2$]',
                        ('Land use', 'Mm2'),
                        1e3)
-TUP_JOB_SCALAR_BASE = ('Employment [M]',
-                       ('Employment', 'M'),
-                       1e3)
+# TUP_JOB_SCALAR_BASE = ('Employment [M]',
+#                        ('Employment', 'M'),
+#                        1e3)
+
+TUP_JOB_SCALAR_BASE = ('Employment [k]',
+                       ('Employment', 'k'),
+                       1)
+
+
 # TUP_VA_SCALAR_BASE = ('Value added [T€]',
 #                       ('Value added', 'T€'),
 #                       1e6)
@@ -179,17 +205,37 @@ TUP_VA_SCALAR_BASE = ('Value added [G€]',
 TUP_CF_SCALAR_DELTA = ('Global Warming ' + r'[$Tg\/CO_2\/eq.$]',
                        ('Global Warming', 'TgCO2eq.'),
                        1e9)
-TUP_MF_SCALAR_DELTA = ('Material use [kt]',
-                       ('Material use', 'kt'), 1e3)
-TUP_WF_SCALAR_DELTA = ('Water consumption ' + r'[$Gm^3$]',
-                       ('Water consumption', 'Gm3'),
+# TUP_MF_SCALAR_DELTA = ('Material use [kt]',
+#                        ('Material use', 'kt'), 1e3)
+
+TUP_MF_SCALAR_DELTA = ('Material use [Mt]',
+                       ('Material use', 'Mt'),
                        1e3)
-TUP_LF_SCALAR_DELTA = ('Land use' + r'[$Mm^2$]',
-                       ('Land use', 'Mm2'),
-                       1e3)
-TUP_JOB_SCALAR_DELTA = ('Employment [M]',
-                        ('Employment', 'M'),
-                        1e3)
+
+# TUP_WF_SCALAR_DELTA = ('Water consumption ' + r'[$Gm^3$]',
+#                        ('Water consumption', 'Gm3'),
+#                        1e3)
+
+TUP_WF_SCALAR_DELTA = ('Water consumption ' + r'[$Mm^3$]',
+                       ('Water consumption', 'Mm3'),
+                       1)
+
+# TUP_LF_SCALAR_DELTA = ('Land use' + r'[$Mm^2$]',
+#                        ('Land use', 'Mm2'),
+#                        1e3)
+
+TUP_LF_SCALAR_DELTA = ('Land use' + r'[$km^2$]',
+                       ('Land use', 'km2'),
+                       1)
+
+# TUP_JOB_SCALAR_DELTA = ('Employment [M]',
+#                         ('Employment', 'M'),
+#                         1e3)
+
+TUP_JOB_SCALAR_DELTA = ('Employment [k]',
+                        ('Employment', 'k'),
+                        1)
+
 TUP_VA_SCALAR_DELTA = ('Value added [G€]',
                        ('Value added', 'G€'),
                        1e3)

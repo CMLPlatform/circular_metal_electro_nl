@@ -61,7 +61,7 @@ def read_cbs_emp_2010():
                 total_s, total_e, str_prod_id_name, yr, str_val = row
                 list_prod_id_name = str_prod_id_name.split()
                 prod_name = ' '.join(list_prod_id_name[1:])
-                dict_cbs_emp[prod_name] = float(str_val)/1e3
+                dict_cbs_emp[prod_name] = float(str_val)
     return dict_cbs_emp
 
 
@@ -472,28 +472,28 @@ def read_b_cpa_circ_sbi():
     return df_b_cpa_circ_sbi
 
 
-def read_bridge_tno_primary_eb():
-    """ Read bridge matrix from TNO classification to EXIOBASE.
-
-    """
-    ut.log('Reading bridge matrix from TNO classification to EXIOBASE.')
-
-    df_bridge_tno_eb = pd.read_csv(
-        cfg.INPUT_DIR_PATH+cfg.BRIDGE_TNO_EB_FILE_NAME,
-        header=[0, 1],
-        index_col=0,
-        sep='\t')
-    return df_bridge_tno_eb
-
-# def read_b_cpa_prim_eb():
+# def read_bridge_tno_primary_eb():
 #     """ Read bridge matrix from TNO classification to EXIOBASE.
 
 #     """
 #     ut.log('Reading bridge matrix from TNO classification to EXIOBASE.')
 
-#     df_b_cpa_prim_eb = pd.read_csv(
-#         cfg.INPUT_DIR_PATH+cfg.B_CPA_PRIM_EB_FILE_NAME,
+#     df_bridge_tno_eb = pd.read_csv(
+#         cfg.INPUT_DIR_PATH+cfg.BRIDGE_TNO_EB_FILE_NAME,
 #         header=[0, 1],
 #         index_col=0,
 #         sep='\t')
-#     return df_b_cpa_prim_eb
+#     return df_bridge_tno_eb
+
+def read_b_cpa_prim_eb():
+    """ Read bridge matrix from TNO classification to EXIOBASE.
+
+    """
+    ut.log('Reading bridge matrix from TNO classification to EXIOBASE.')
+
+    df_b_cpa_prim_eb = pd.read_csv(
+        cfg.INPUT_DIR_PATH+cfg.B_CPA_PRIM_EB_FILE_NAME,
+        header=[0, 1],
+        index_col=0,
+        sep='\t')
+    return df_b_cpa_prim_eb

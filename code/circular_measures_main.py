@@ -47,6 +47,7 @@ import utils as ut
 
 
 def main():
+#%%
     """ Preprocessing.
 
     """
@@ -76,7 +77,10 @@ def main():
     df_b_cpa_circ_sbi = cmr.read_b_cpa_circ_sbi()
 
     # Read bridge from TNO to EXIOBASE.
-    df_bridge_tno_primary_eb = cmr.read_bridge_tno_primary_eb()
+    # df_bridge_tno_primary_eb = cmr.read_bridge_tno_primary_eb()
+
+    # Read bridge from TNO to EXIOBASE.
+    df_b_cpa_prim_eb = cmr.read_b_cpa_prim_eb()
 
     # Read bridge from CBS to EXIOBASE.
     # df_bridge_cbs_eb = cmr.read_bridge_cbs_eb()
@@ -101,7 +105,9 @@ def main():
     df_y_base_tno_primary = cmr.get_y_tno_primary(df_y_base_tno)
 
     # Bridge base demand from TNO to sourced EXIOBASE classification.
-    df_y_base_eb_primary = cmc.calc_y_eb(df_bridge_tno_primary_eb,
+    # df_y_base_eb_primary = cmc.calc_y_eb(df_bridge_tno_primary_eb,
+    #                                      df_y_base_tno_primary)
+    df_y_base_eb_primary = cmc.calc_y_eb(df_b_cpa_prim_eb,
                                          df_y_base_tno_primary)
 
     df_y_base_eb_primary_source = cmc.calc_y_eb_source(df_bridge_eb_source_all,
@@ -241,8 +247,12 @@ def main():
     df_y_delta_tno_primary = cmr.get_y_tno_primary(df_y_delta_tno)
 
     # Bridge base demand from TNO to sourced EXIOBASE classification.
-    df_y_delta_eb_primary = cmc.calc_y_eb(df_bridge_tno_primary_eb,
+    # df_y_delta_eb_primary = cmc.calc_y_eb(df_bridge_tno_primary_eb,
+    #                                       df_y_delta_tno_primary)
+
+    df_y_delta_eb_primary = cmc.calc_y_eb(df_b_cpa_prim_eb,
                                           df_y_delta_tno_primary)
+
 
     df_y_delta_eb_primary_source = cmc.calc_y_eb_source(
         df_bridge_eb_source_all,
@@ -400,71 +410,89 @@ def main():
         dict_vf_eb_base_emp_prim,
         dict_vf_eb_base_va_prim)
 
-    cmw.store_base(df_base_txt_prim, cfg.BASE_PRIM_FILE_NAME_PATTERN)
+    # cmw.store_base(df_base_txt_prim, cfg.BASE_PRIM_FILE_NAME_PATTERN)
 
     df_base_plt_circ, df_base_txt_circ = cmw.write_base(
         dict_ef_eb_base_circ,
         dict_vf_eb_base_emp_circ,
         dict_vf_eb_base_va_circ)
 
-    cmw.store_base(df_base_txt_circ, cfg.BASE_CIRC_FILE_NAME_PATTERN)
+    # cmw.store_base(df_base_txt_circ, cfg.BASE_CIRC_FILE_NAME_PATTERN)
 
     df_base_txt_circ_inc_direct = cmw.add_direct(df_base_txt_circ,
                                                  df_base_cbs_emp,
                                                  df_base_cbs_va)
 
-
-    cmw.store_base(df_base_txt_circ_inc_direct,
-                   cfg.BASE_CIRC_DIRECT_FILE_NAME_PATTERN)
-
-
-    df_base_plt_net, df_base_txt_net = cmw.write_base(
-        dict_ef_eb_base_net,
-        dict_vf_eb_base_emp_net,
-        dict_vf_eb_base_va_net)
-
-    cmw.store_base(df_base_txt_net, cfg.BASE_NET_FILE_NAME_PATTERN)
-
-    df_base_txt_net_inc_direct = cmw.add_direct(df_base_txt_net,
-                                                df_base_cbs_emp,
-                                                df_base_cbs_va)
+    # cmw.store_base(df_base_txt_circ_inc_direct,
+    #                cfg.BASE_CIRC_DIRECT_FILE_NAME_PATTERN)
 
 
-    cmw.store_base(df_base_txt_net_inc_direct,
-                   cfg.BASE_NET_DIRECT_FILE_NAME_PATTERN)
+    # df_base_plt_net, df_base_txt_net = cmw.write_base(
+    #     dict_ef_eb_base_net,
+    #     dict_vf_eb_base_emp_net,
+    #     dict_vf_eb_base_va_net)
+
+    # cmw.store_base(df_base_txt_net, cfg.BASE_NET_FILE_NAME_PATTERN)
+
+    # df_base_txt_net_inc_direct = cmw.add_direct(df_base_txt_net,
+    #                                             df_base_cbs_emp,
+    #                                             df_base_cbs_va)
 
 
-    list_df_delta_plt_net, list_df_delta_txt_net = cmw.write_delta(
-        dict_ef_eb_delta_net,
-        dict_vf_eb_delta_emp_net,
-        dict_vf_eb_delta_va_net,
-        df_base_txt_net)
+    # cmw.store_base(df_base_txt_net_inc_direct,
+    #                cfg.BASE_NET_DIRECT_FILE_NAME_PATTERN)
 
-    cmw.store_delta(list_df_delta_txt_net, cfg.DELTA_NET_FILE_NAME_PATTERN)
+###
+    d_cat_base = cmw.cat_base(df_base_txt_prim, df_base_txt_circ_inc_direct)
+    cmw.write_cat_base(d_cat_base)
+
+
+
+
+###
+
+    # list_df_delta_plt_net, list_df_delta_txt_net = cmw.write_delta(
+    #     dict_ef_eb_delta_net,
+    #     dict_vf_eb_delta_emp_net,
+    #     dict_vf_eb_delta_va_net)
+
+    # cmw.store_delta(list_df_delta_txt_net, cfg.DELTA_NET_FILE_NAME_PATTERN)
 
 
     list_df_delta_plt_prim, list_df_delta_txt_prim = cmw.write_delta(
         dict_ef_eb_delta_prim,
         dict_vf_eb_delta_emp_prim,
-        dict_vf_eb_delta_va_prim,
-        df_base_txt_prim)
+        dict_vf_eb_delta_va_prim)
 
-    cmw.store_delta(list_df_delta_txt_prim, cfg.DELTA_PRIM_FILE_NAME_PATTERN)
+    # cmw.store_delta(list_df_delta_txt_prim, cfg.DELTA_PRIM_FILE_NAME_PATTERN)
 
 
     list_df_delta_plt_circ, list_df_delta_txt_circ = cmw.write_delta(
         dict_ef_eb_delta_circ,
         dict_vf_eb_delta_emp_circ,
-        dict_vf_eb_delta_va_circ,
-        df_base_txt_circ)
+        dict_vf_eb_delta_va_circ)
+###
 
-    cmw.store_delta(list_df_delta_txt_circ, cfg.DELTA_CIRC_FILE_NAME_PATTERN)
+    d_cat_delta = cmw.cat_delta(dict_ef_eb_delta_prim,
+                                dict_vf_eb_delta_emp_prim,
+                                dict_vf_eb_delta_va_prim,
+                                dict_ef_eb_delta_circ,
+                                dict_vf_eb_delta_emp_circ,
+                                dict_vf_eb_delta_va_circ,
+                                df_delta_cbs_emp,
+                                df_delta_cbs_va)
 
-    cmw.write_emp_direct(df_base_cbs_emp, 'base')
-    cmw.write_emp_direct(df_delta_cbs_emp, 'delta')
+    cmw.write_cat_delta(d_cat_delta)
 
-    cmw.write_va_direct(df_base_cbs_va, 'base')
-    cmw.write_va_direct(df_delta_cbs_va, 'delta')
+###
+    # cmw.store_delta(list_df_delta_txt_circ, cfg.DELTA_CIRC_FILE_NAME_PATTERN)
+
+    # cmw.write_emp_direct(df_base_cbs_emp, 'base')
+    # cmw.write_emp_direct(df_delta_cbs_emp, 'delta')
+
+    # cmw.write_va_direct(df_base_cbs_va, 'base')
+    # cmw.write_va_direct(df_delta_cbs_va, 'delta')
+#%%
 
 
 if __name__ == '__main__':
