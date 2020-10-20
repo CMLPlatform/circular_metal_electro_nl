@@ -529,3 +529,12 @@ def calc_vf_net(dict_fp_eb_prim, dict_fp_eb_circ):
         df_fp_net = df_fp_prim+df_fp_circ
         dict_fp_eb_net[meas_id] = df_fp_net
     return dict_fp_eb_net
+
+
+def calc_fp_nl(dict_io_eb_2010_proc, df_y_nl, dict_tup_fp, dict_impact):
+    (dict_ef_eb_base_nl,
+     dict_vf_eb_base_emp_nl,
+     dict_vf_eb_base_va_nl) = cmc.calc_base(dict_io_eb_2010_proc,
+                                              df_y_nl,
+                                              dict_tup_fp,
+                                              dict_impact)

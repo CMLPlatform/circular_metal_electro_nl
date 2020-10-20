@@ -378,28 +378,6 @@ def read_dict_impact():
     return dict_impact
 
 
-# def read_bridge_cbs_eb():
-#     """ Read bridge matrix from CBS to EB classification.
-
-#     """
-
-#     df_bridge_cbs_eb = pd.read_csv(
-#         cfg.INPUT_DIR_PATH+cfg.BRIDGE_CBS_EB_FILE_NAME,
-#         index_col=0,
-#         header=[0, 1],
-#         sep='\t')
-#     list_df_bridge_cbs_eb_col = list(df_bridge_cbs_eb.columns)
-#     list_df_bridge_cbs_eb_col_int = []
-#     for tup_cbs_prod in list_df_bridge_cbs_eb_col:
-#         str_cbs_prod_id, cbs_prod_name = tup_cbs_prod
-#         cbs_prod_id = int(str_cbs_prod_id)
-#         tup_cbs_prod_int = (cbs_prod_id, cbs_prod_name)
-#         list_df_bridge_cbs_eb_col_int.append(tup_cbs_prod_int)
-#     df_bridge_cbs_eb.columns = list_df_bridge_cbs_eb_col_int
-
-
-#     return df_bridge_cbs_eb
-
 def gen_bridge_sbi_eb(dict_io_eb_2010):
     """ Generate bridge matrix from SBI to EB classification.
 
@@ -435,7 +413,6 @@ def gen_bridge_sbi_eb(dict_io_eb_2010):
     return df_b_sbi_eb_nl_norm
 
 
-
 def read_io_cbs_2010():
     """ Read CBS 2010 IO table.
 
@@ -449,17 +426,6 @@ def read_io_cbs_2010():
     return df_io_cbs_2010
 
 
-# def read_bridge_tno_circular_io():
-#     """ Read bridge matrix from TNO to CBS circularity activities.
-
-#     """
-#     df_bridge_tno_circular_io = pd.read_csv(
-#         cfg.INPUT_DIR_PATH+cfg.BRIDGE_TNO_CIRCULAR_IO_FILE_NAME,
-#         header=[0, 1],
-#         index_col=[0, 1],
-#         sep='\t')
-#     return df_bridge_tno_circular_io
-
 def read_b_cpa_circ_sbi():
     """ Read bridge matrix from TNO to CBS circularity activities.
 
@@ -471,19 +437,6 @@ def read_b_cpa_circ_sbi():
         sep='\t')
     return df_b_cpa_circ_sbi
 
-
-# def read_bridge_tno_primary_eb():
-#     """ Read bridge matrix from TNO classification to EXIOBASE.
-
-#     """
-#     ut.log('Reading bridge matrix from TNO classification to EXIOBASE.')
-
-#     df_bridge_tno_eb = pd.read_csv(
-#         cfg.INPUT_DIR_PATH+cfg.BRIDGE_TNO_EB_FILE_NAME,
-#         header=[0, 1],
-#         index_col=0,
-#         sep='\t')
-#     return df_bridge_tno_eb
 
 def read_b_cpa_prim_eb():
     """ Read bridge matrix from TNO classification to EXIOBASE.
