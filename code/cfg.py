@@ -183,9 +183,9 @@ TUP_WF_SCALAR_BASE = ('Water consumption ' + r'[$Mm^3$]',
 # TUP_LF_SCALAR_BASE = ('Land use' + r'[$Gm^2$]',
 #                       ('Land use', 'Gm2'),
 #                       1e6)
-TUP_LF_SCALAR_BASE = ('Land use' + r'[$Mm^2$]',
-                       ('Land use', 'Mm2'),
-                       1e3)
+TUP_LF_SCALAR_BASE = ('Land use' + r'[$km^2$]',
+                       ('Land use', 'km2'),
+                       1)
 # TUP_JOB_SCALAR_BASE = ('Employment [M]',
 #                        ('Employment', 'M'),
 #                        1e3)

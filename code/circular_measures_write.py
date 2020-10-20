@@ -578,7 +578,6 @@ def cat_delta(dict_ef_eb_delta_prim,
             for t_imp_cat in d_df[reg]:
                 val = d_df[reg][t_imp_cat]
                 d_cat_delta[act][t_emp_txt][reg] += val
-                print(emp, emp_unit, meas_id, reg, t_imp_cat, val)
 
     d_delta_cbs_emp = df_delta_cbs_emp.to_dict()
     for meas_id in d_delta_cbs_emp:
@@ -624,3 +623,16 @@ def write_cat_delta(d_cat_delta):
                     val = d_cat_delta[act][t_fp][reg]
                     row_write = [reg, act, t_fp_id, fp, val, unit]
                     csv_file.writerow(row_write)
+
+def write_b_sbi_eb_weighted(df_bridge_sbi_eb):
+    d_bridge_sbi_eb_header = {}
+    d_bridge_sbi_eb = df_bridge_sbi_eb.to_dict()
+    for t_header in d_bridge_sbi_eb:
+        header_id, header = t_header
+        if header not in d_bridge_sbi_eb_header:
+            d_bridge_sbi_eb_header[header] = {}
+        for prod in d_bridge_sbi_eb[t_header]:
+            val = d_bridge_sbi_eb[t_header][prod]
+            d_bridge_sbi_eb_header[header][prod] = val
+    df_bridge_sbi_eb_header = pd.DataFrame(d_bridge_sbi_eb_header)
+    df_bridge_sbi_eb_header.to_csv(cfg.INPUT_DIR_PATH+'b_sbi_eb_weighted.txt', sep='\t')
